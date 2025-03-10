@@ -10,11 +10,6 @@ Centos 7
 Role Variables & default values
 --------------
 
-- `vector_install_dir` - directory to download and unarchive vector package
-- `vector_service_file` - *DO NOT CHANGE* need to register vector as a service
-- `vector_config_file` - location to save your vector config *IF YOU CHANGE vector_install_dir YOU NEED TO CHANGE THIS TOO*
-- `vector_address` - address for your machine
-- `vector_config_path` - local path to vector config file
 | Name           | Default Value | Description                        |
 | -------------- | ------------- | -----------------------------------|
 | `vector_version` | 0.42.0 | vector version that you need to install |
