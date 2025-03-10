@@ -1,38 +1,46 @@
-Role Name
+Vector role
 =========
 
-A brief description of the role goes here.
+Deploy Vector to host
 
 Requirements
 ------------
+Centos 7
 
-Any pre-requisites that may not be covered by Ansible itself or the role should be mentioned here. For instance, if the role uses the EC2 module, it may be a good idea to mention in this section that the boto package is required.
-
-Role Variables
+Role Variables & default values
 --------------
 
-A description of the settable variables for this role should go here, including any variables that are in defaults/main.yml, vars/main.yml, and any variables that can/should be set via parameters to the role. Any variables that are read from other roles and/or the global scope (ie. hostvars, group vars, etc.) should be mentioned here as well.
+- `vector_install_dir` - directory to download and unarchive vector package
+- `vector_service_file` - *DO NOT CHANGE* need to register vector as a service
+- `vector_config_file` - location to save your vector config *IF YOU CHANGE vector_install_dir YOU NEED TO CHANGE THIS TOO*
+- `vector_address` - address for your machine
+- `vector_config_path` - local path to vector config file
+| Name           | Default Value | Description                        |
+| -------------- | ------------- | -----------------------------------|
+| `vector_version` | 0.42.0 | vector version that you need to install |
+| `vector_install_dir` | /opt/vector | directory to download and unarchive vector package |
+| `vector_service_file` | /etc/systemd/system/vector.service | *DO NOT CHANGE* need to register vector as a service |
+| `vector_config_file` | /opt/vector/vector.toml | location to save your vector config *IF YOU CHANGE vector_install_dir YOU NEED TO CHANGE THIS TOO* |
+| `vector_address` | EMPTY | address for your machine |
+| `vector_config_path` | template/vector_template.toml.j2 | local path to vector config file |
 
-Dependencies
-------------
-
-A list of other roles hosted on Galaxy should go here, plus any details in regards to parameters that may need to be set for other roles, or variables that are used from other roles.
 
 Example Playbook
 ----------------
 
 Including an example of how to use your role (for instance, with variables passed in as parameters) is always nice for users too:
 
-    - hosts: servers
-      roles:
-         - { role: username.rolename, x: 42 }
+    - src: git@github.com:DaddyMorlan/vector-role.git
+    scm: git
+    version: "1.0"
+    name: vector 
 
 License
 -------
 
-BSD
+Morlan
 
 Author Information
 ------------------
 
-An optional section for the role authors to include contact information, or a website (HTML is not allowed).
+DaddyMorlan
