@@ -1,0 +1,47 @@
+---
+# tasks file for vector-role   
+- name: Make vector dir
+  ansible.builtin.file:
+    path: "{{ vector_install_dir }}"
+    state: directory
+    mode: '0755'
+
+- name: Download vector gz
+  ansible.builtin.get_url:
+    url: "https://api.github.com/repos/vectordotdev/vector/tarball/v{{ vector_version }}"
+    dest: "/tmp/vector-{{ vector_version }}.tar.gz"
+    mode: '0644'
+
+- name: Extract vector
+  ansible.builtin.unarchive:
+    src: "/tmp/vector-{{ vector_version }}.tar.gz"
+    dest: "{{ vector_install_dir }}"
+    remote_src: true
+
+- name: Create systemd service for Vector
+  ansible.builtin.copy:
+    dest: /etc/systemd/system/vector.service
+    mode: '0755'
+    content: |
+      [Unit]
+      Description=Vector Service
+      After=network.target
+      [Service]
+      ExecStart=/opt/vector/bin/vector --config /opt/vector/vector.toml
+      Restart=on-failure
+      User=root
+      Group=root
+
+      [Install]
+      WantedBy=multi-user.target
+  notify: Reload systemd
+
+- name: Deploy vector config
+  ansible.builtin.template:
+    src: "{{ vector_config_path }}"
+    dest: "{{ vector_config_file }}"
+    mode: '0755'
+  notify: Start vector service
+
+- name: Flush handlers
+  ansible.builtin.meta: flush_handlers
